@@ -167,8 +167,11 @@ class RegisterController extends Controller
             'title' => 'Customer form status',
             'body' => 'Hi, your form is approved by our admin. Please go to our portal and log in. Thank you'
         ];
+
+        $getUserID = DB::table('customers')->where('id', $id)->first();
+        $email_id = $getUserID->email;
        
-        \Mail::to('yabase125@gmail.com')->send(new SendMail($details));
+        \Mail::to($email_id)->send(new SendMail($details));
         Session::flash('message','Customer approved successfully');
         Session::flash('class','success');
         return back();
@@ -182,8 +185,10 @@ class RegisterController extends Controller
             'title' => 'Customer form status',
             'body' => 'Hi, your form is rejected by our admin.'
         ];
+        $getUserID = DB::table('customers')->where('id', $id)->first();
+        $email_id = $getUserID->email;
        
-        \Mail::to('yabase125@gmail.com')->send(new SendMail($details));
+        \Mail::to($email_id)->send(new SendMail($details));
         Session::flash('message','Customer rejected successfully');
         Session::flash('class','success');
         return back();
